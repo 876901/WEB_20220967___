@@ -16,7 +16,7 @@
 document.getElementById("search_btn").addEventListener('click', search_message);
 
 var search_array = [];
-const filltering = ["시발","미친","개새끼"];
+const filltering = ["씨발","뻐큐","뒤져라"];
 
 function search_message(){
    let search_str = document.getElementById("search_txt").value;
@@ -29,4 +29,6 @@ function search_message(){
       search_array.push(search_str.value);      
    }
    let text = document.getElementById("search_message").innerHtml = search_array.toString();
-   search_message.innerHTML = search_str.value;
+	search_message.innerHTML = search_str.value;
+}
+
