@@ -364,5 +364,45 @@ function decrypt_text(password){
 }
 
 
-//document.getElementById("local").addEventListener("keydown", myFunction); // id가 local인 객체에 아무 키나 누르면 myFunction 함수를 실행하는 이벤트 리스너
+//		document.getElementById("local").addEventListener("keydown", myFunction); // id가 local인 객체에 아무 키나 누르면 myFunction 함수를 실행하는 이벤트 리스너
 
+function login_count() {
+   var loginCnt = getCookie("login_cnt"); // Get the current login count from the cookie
+    loginCnt = parseInt(loginCnt);
+   if (!loginCnt) {
+      loginCnt = 0;
+   }
+   loginCnt++; // Increment the login count
+   setCookie("login_cnt", loginCnt, 1); // Update the login count in the cookie
+}
+
+function logout_count() {
+   var logoutCnt = getCookie("logout_cnt"); // Get the current logout count from the cookie
+    logoutCnt = parseInt(logoutCnt);
+   if (!logoutCnt) {
+      logoutCnt = 0;
+   }
+   logoutCnt++; // Increment the logout count
+   setCookie("logout_cnt", logoutCnt, 1); // Update the logout count in the cookie
+}
+
+function setCookie(name, value, expiredays) {
+   var date = new Date();
+   date.setDate(date.getDate() + expiredays);
+   document.cookie = escape(name) + "=" + escape(value) + "; expires=" + date.toUTCString() + "SameSite=None; Secure";
+}
+
+function getCookie(name) {
+   var cookie = document.cookie;
+   if (cookie != "") {
+      var cookie_array = cookie.split("; ");
+      for (var index in cookie_array) {
+         var cookie_name = cookie_array[index].split("=");
+
+         if (cookie_name[0] == name) {
+            return cookie_name[1];
+         }
+      }
+   }
+   return ;
+}
