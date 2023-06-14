@@ -65,7 +65,10 @@ function session_join_set(){ //세션 저장(객체)
     let p_number = document.querySelector("#phoneNumber").value;
     let class_check = document.querySelector(".select form-control-lg");
     let random = new Date(); // 랜덤 타임스탬프
+	
+	function session_join_get() 
     
+	
     const newSignUp = new SignUp(f_name, l_name, b_day, gender, email, p_number, class_check, random);
     console.log(newSignUp.fullName); // John Doe
     console.log(newSignUp.contactInfo); // johndoe@email.com 123-456-7890
