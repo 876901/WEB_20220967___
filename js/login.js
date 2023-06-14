@@ -366,43 +366,41 @@ function decrypt_text(password){
 
 //		document.getElementById("local").addEventListener("keydown", myFunction); // id가 local인 객체에 아무 키나 누르면 myFunction 함수를 실행하는 이벤트 리스너
 
-function login_count() {
-   var loginCnt = getCookie("login_cnt"); // Get the current login count from the cookie
-    loginCnt = parseInt(loginCnt);
-   if (!loginCnt) {
-      loginCnt = 0;
+var logoutUser = false;
+var timeoutHnd = null;
+var logouTimeInterval = 0.5 * 60 * 1000;
+
+function onuser_activite() { // 시간 리셋
+   if (logoutUser) {
+      ;
    }
-   loginCnt++; // Increment the login count
-   setCookie("login_cnt", loginCnt, 1); // Update the login count in the cookie
+   else {
+      ResetLogOutTimer();
+   }
 }
 
-function logout_count() {
-   var logoutCnt = getCookie("logout_cnt"); // Get the current logout count from the cookie
-    logoutCnt = parseInt(logoutCnt);
-   if (!logoutCnt) {
-      logoutCnt = 0;
-   }
-   logoutCnt++; // Increment the logout count
-   setCookie("logout_cnt", logoutCnt, 1); // Update the logout count in the cookie
+function OnTimeoutReached() { // 설정 시간이 되면
+   logoutUser = true;
+   alert(" 세션의 지속 시간은 30초 입니다. 만료되면 자동으로 로그아웃 됩니다. !");
+   session_del();
+   window.location.href = "index.html";
 }
 
-function setCookie(name, value, expiredays) {
-   var date = new Date();
-   date.setDate(date.getDate() + expiredays);
-   document.cookie = escape(name) + "=" + escape(value) + "; expires=" + date.toUTCString() + "SameSite=None; Secure";
+function ResetLogOutTimer() { // 시간 타이머 리셋
+   clearTimeout(timeoutHnd);
+   timeoutHnd = setTimeout('OnTimeoutReached();', logouTimeInterval);
 }
+document.body.onclick = onuser_activite();
+timeoutHnd = setTimeout('OnTimeoutReached();', logouTimeInterval);
 
-function getCookie(name) {
-   var cookie = document.cookie;
-   if (cookie != "") {
-      var cookie_array = cookie.split("; ");
-      for (var index in cookie_array) {
-         var cookie_name = cookie_array[index].split("=");
-
-         if (cookie_name[0] == name) {
-            return cookie_name[1];
-         }
-      }
+//세션 삭제
+function session_del() {
+   if(sessionStorage) {
+      sessionStorage.removeItem("Session_Storage_test");
+      alert('세션 만료 확인! : 세션 스토리지를 삭제합니다.');
+      
    }
-   return ;
+   else {
+      alert("세션 스토리지 지원 x");
+   }
 }
